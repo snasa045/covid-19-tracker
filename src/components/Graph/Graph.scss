@@ -1,0 +1,16 @@
+.global_graph{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    flex-wrap: wrap;
+
+    .line_chart{
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .daily_new_cases_chart, .daily_new_deaths_chart, .daily_new_recovered_chart{
+        width: 90vw;
+        margin-top: 20px;
+    }
+}

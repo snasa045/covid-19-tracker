@@ -1,13 +1,92 @@
+@import './assets/styles/colors.scss'; 
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Averta', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: lighten(#0055DE, 55%);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+body, #root {
+    height: 100vh;
+    font-family: 'Averta', Helvetica, sans-serif;
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Averta Bold'), url(./assets/fonts/Averta-Bold.otf) format('opentype');
+  }
+  
+@font-face {
+    font-family: 'Averta';
+    font-style: italic;
+    font-weight: 900;
+    src: local('Averta Bold Italic'), url(./assets/fonts/Averta-BoldItalic.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Averta Light'), url(./assets/fonts/Averta-Light.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Averta Light Italic'), url(./assets/fonts/Averta-LightItalic.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Averta Regular'), url(./assets/fonts/Averta-Regular.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: italic;
+    font-weight: 500;
+    src: local('Averta Regular Italic'), url(./assets/fonts/Averta-RegularItalic.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Averta Semibold'), url(./assets/fonts/Averta-Semibold.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: italic;
+    font-weight: 600;
+    src: local('Averta Semibold Italic'), url(./assets/fonts/Averta-SemiboldItalic.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Averta Thin'), url(./assets/fonts/Averta-Thin.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Averta';
+    font-style: italic;
+    font-weight: 300;
+    src: local('Averta Thin Italic'), url(./assets/fonts/Averta-ThinItalic.otf) format('opentype');
 }

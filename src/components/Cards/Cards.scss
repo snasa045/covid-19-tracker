@@ -1,0 +1,43 @@
+.global_cards_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    justify-content: space-evenly;
+
+    .cards_container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 50px;
+        width: 20%;
+
+        .card_wrapper{
+            margin: 10px;
+
+            &.totalCases {
+                border-left: 10px solid var(--total_cases_color);
+                border-right: 10px solid var(--total_cases_color);
+            }
+
+            &.deaths {
+                border-left: 10px solid var(--deaths_color);
+                border-right: 10px solid var(--deaths_color);
+            }
+
+            &.recovered {
+                border-left: 10px solid var(--recovered_color);
+                border-right: 10px solid var(--recovered_color);
+
+                h2 {
+                    color: var(--recovered_color);
+                }
+            }
+        }
+    }
+
+    .pie_chart_div{
+        max-width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

@@ -1,22 +1,57 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
-const SelectCountry = () => {
+import './SelectCountry.module.scss';
 
-    function countryToFlag(isoCode) {
-        return typeof String.fromCodePoint !== 'undefined'
-          ? isoCode
-              .toUpperCase()
-              .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
-          : isoCode;
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#0055DE',
+    },
+  },
+});
+
+const SelectCountry = ({countries, onCountryChange}) => {
+
+    console.log(countries);
+
+    if(!countries) {
+        return 'Loading...';
     }
 
     return (
-        <div>
-            
-        </div>
-    );
+      <ThemeProvider theme={theme}>
+        <Autocomplete
+          id="country-select-demo"
+          color="primary"
+          style={{ width: 300 }}
+          options={countries}
+          autoHighlight
+          getOptionLabel={(option) => option} 
+          onChange={onCountryChange}
+          openOnFocus
+          renderOption={(option) => (
+            <React.Fragment>
+              {option}
+            </React.Fragment>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Choose a country"
+              variant="outlined"
+              inputProps={{
+                ...params.inputProps,
+                autoComplete: 'new-password',
+              }}
+            />
+          )}
+        />
+      </ThemeProvider>
+      );
 }
 
 export default SelectCountry;
