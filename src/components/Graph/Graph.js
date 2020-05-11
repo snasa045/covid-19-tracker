@@ -4,22 +4,11 @@ import { Line, Bar } from 'react-chartjs-2';
 import './Graph.scss';
 
 
-const Graph = ({history, name}) => {
+const Graph = ({history: [history, dailyNewCases, dailyNewDeaths, dailyNewRecovered], name}) => {
 
-    console.log(history);
+    // console.log(history,dailyNewCases, dailyNewDeaths, dailyNewRecovered);
     if (!history) {
         return "Loading...";
-    }
-
-    // Function to get the difference between current day and prev day total cases
-    const diffMaker = (array) => {
-        const newArray = [];
-
-        for (let index = 1; index < array.length; index++) {
-            newArray.push(array[index] - array[index - 1]);
-        }
-
-        return newArray;
     }
 
     const lineChartForWorld = (
@@ -73,11 +62,6 @@ const Graph = ({history, name}) => {
             /> 
         </div>
     );
-    
-
-    let dailyNewCases = diffMaker(history.map(day => day.Confirmed));
-    let dailyNewDeaths = diffMaker(history.map(day => day.Deaths));
-    let dailyNewRecovered = diffMaker(history.map(day => day.Recovered));
 
     const barChartDailyNewCases = (
         <React.Fragment>
@@ -97,6 +81,26 @@ const Graph = ({history, name}) => {
                     options={{
                         // legend: { display: false },
                         title: { display: true, text: `Daily New Cases` },
+                        scales: {
+                            xAxes: [{
+                                gridLines: {
+                                    display:false
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Days'
+                                }
+                            }],
+                            yAxes: [{
+                                gridLines: {
+                                    display:true
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Number of People'
+                                }
+                            }]
+                        }
                     }}
                 />
             </div>
@@ -117,12 +121,32 @@ const Graph = ({history, name}) => {
                     options={{
                         // legend: { display: false },
                         title: { display: true, text: `Daily New Deaths` },
+                        scales: {
+                            xAxes: [{
+                                gridLines: {
+                                    display:false
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Days'
+                                }
+                            }],
+                            yAxes: [{
+                                gridLines: {
+                                    display:true
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Number of People'
+                                }
+                            }]
+                        }
                     }}
                 />
             </div>
 
             <div className="daily_new_recovered_chart chart">
-                <h2>Daily New Recovered in {name}</h2>
+                <h2>Daily New Recoveries in {name}</h2>
                 <Bar
                     data={{
                     labels: history.slice(1).map(day => day.Date),
@@ -136,7 +160,27 @@ const Graph = ({history, name}) => {
                     }}
                     options={{
                         // legend: { display: false },
-                        title: { display: true, text: `Daily New Recovered People` },
+                        title: { display: true, text: `Daily New Recoveries` },
+                        scales: {
+                            xAxes: [{
+                                gridLines: {
+                                    display:false
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Days'
+                                }
+                            }],
+                            yAxes: [{
+                                gridLines: {
+                                    display:true
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Number of People'
+                                }
+                            }]
+                        }
                     }}
                 />
             </div>

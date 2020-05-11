@@ -16,7 +16,7 @@ const theme = createMuiTheme({
 
 const SelectCountry = ({countries, onCountryChange}) => {
 
-    console.log(countries);
+    // console.log(countries);
 
     if(!countries) {
         return 'Loading...';
@@ -27,7 +27,7 @@ const SelectCountry = ({countries, onCountryChange}) => {
         <Autocomplete
           id="country-select-demo"
           color="primary"
-          style={{ width: 300 }}
+          style={{ maxWidth: 300, minWidth: 250 }}
           options={countries}
           autoHighlight
           getOptionLabel={(option) => option} 

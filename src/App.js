@@ -4,18 +4,31 @@ import {fetchData} from './api';
 import Cards from './components/Cards/Cards';
 import SelectCountry from './components/SelectCountry/SelectCountry';
 import Graph from './components/Graph/Graph';
+import CountUp from 'react-countup';
+import ReactGA from 'react-ga';
 import './App.scss';
 
 class App extends Component {
 
-  state = {
-    data: {},
-    country: '',
-    countries: [],
-    countryName: '',
-    copyData: {},
-    history: [],
-    copyHistory: []
+  constructor(props) {
+    super(props);
+
+    ReactGA.initialize('UA-150841502-1', {
+      debug: false,
+      standardImplementation: false,
+    });
+
+    ReactGA.pageview('/covidTracking');
+
+    this.state = {
+      data: {},
+      country: '',
+      countries: [],
+      countryName: '',
+      copyData: {},
+      history: [],
+      copyHistory: []
+    }
   }
 
   async componentDidMount() {
@@ -59,22 +72,49 @@ class App extends Component {
     });
   }
 
-  render() {
+  // Function to get the difference between current day and prev day total cases
+  diffMaker = (array) => {
+    const newArray = [];
 
+    for (let index = 1; index < array.length; index++) {
+        newArray.push(array[index] - array[index - 1]);
+    }
+
+    return newArray;
+}
+
+  render() {
     const { data, countries, history, countryName} = this.state;
-    console.log(data);
-    console.log(history);
+    
+    if (history.length === 0) {
+      return "Loading...";
+    }
+    let dailyNewCases = this.diffMaker(history.map(day => day.Confirmed));
+    let dailyNewDeaths = this.diffMaker(history.map(day => day.Deaths));
+    let dailyNewRecovered = this.diffMaker(history.map(day => day.Recovered));
+
+    // console.log(data);
+    // console.log(history);
+    let totalCases = +data.Confirmed;
+    let newCasesToday = dailyNewCases.slice(-1);
     return (
       <div className="App">
           <header className="global_header">
             <h1>COVID-19 Tracker</h1>
-            <div class="earth"></div>
-            {/* <EarthLogo className="earth_logo"/> */}
+            <div className="earth"></div>
             <SelectCountry countries = {countries} onCountryChange = {this.handleCountryChange}/>
           </header>
-          <h2 className="country_name">{countryName}</h2>
-          <Cards data = {data}/>
-          <Graph history = {history} name = {countryName}/>
+          <div className="country_name_total_cases">
+            <h2 className="country_name">{countryName}</h2>
+            <h3>
+              Total Cases: <CountUp start={0} end={totalCases} duration={2.75} separator=","/>
+            </h3>
+            <h4>
+              New Cases Today: ( +<CountUp start={0} end={+newCasesToday} duration={2.75} separator=","/> )
+            </h4>
+          </div>
+          <Cards history = {[dailyNewDeaths, dailyNewRecovered]} data = {data}/>
+          <Graph history = {[history, dailyNewCases, dailyNewDeaths, dailyNewRecovered]} name = {countryName}/>
       </div>
     );
   }

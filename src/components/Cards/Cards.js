@@ -19,30 +19,37 @@ const theme = createMuiTheme({
     },
   });
 
-const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate }}) => {
+const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate }, 
+                history : [dailyNewDeaths, dailyNewRecovered]} ) => {
+
+    // console.log(dailyNewDeaths, dailyNewRecovered);
     if(!Confirmed) {
         return 'Loading...';
     }
+
+    const [newDeaths] = dailyNewDeaths.slice(-1);
+    const [newRecoveries] = dailyNewRecovered.slice(-1);
+    const totalActiveCases = (Confirmed - Deaths - Recovered);
 
     const pieChart = (
         <Pie 
             data = {{
                 datasets: [{
-                    data: [+Confirmed, +Deaths, +Recovered],
+                    data: [+totalActiveCases, +Deaths, +Recovered],
                     backgroundColor: ['#0055DE', '#AF3C43', '#03883B'],
                 }],
                 labels: [
-                    'Total Cases',
+                    'Active Cases',
                     'Deaths',
                     'Recovered'
                 ]
             }}
             options={{ 
                 maintainAspectRatio: false,
-                legend: { display: false }
+                legend: { display: true }
             }}
-            width = {400}
-            height = {300}
+            width = {450}
+            height = {500}
         />
     );
 
@@ -54,10 +61,10 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate }}) => {
                     <Grid item className="totalCases card_wrapper" component={Card} elevation={3}>
                         <CardContent>
                             <Typography className="title" color="textSecondary" gutterBottom>
-                                Total Cases
+                                Active Cases
                             </Typography>
                             <Typography variant="h4" component="h2" color="primary">
-                                <CountUp start={0} end={+Confirmed} duration={2.75} separator=","/>
+                                <CountUp start={0} end={+totalActiveCases} duration={2.75} separator=","/>
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date(DateUpdate).toDateString()}
@@ -72,6 +79,9 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate }}) => {
                             <Typography variant="h4" component="h2" color="secondary">
                                 <CountUp start={0} end={+Deaths} duration={2.75} separator=","/>
                             </Typography>
+                            <Typography className="newDeaths" color="textSecondary" gutterBottom>
+                                ( +<CountUp start={0} end={+newDeaths} duration={2.75} separator=","/> )
+                            </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date(DateUpdate).toDateString()}
                             </Typography>
@@ -84,6 +94,9 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate }}) => {
                             </Typography>
                             <Typography variant="h4" component="h2">
                                 <CountUp start={0} end={+Recovered} duration={2.75} separator=","/>
+                            </Typography>
+                            <Typography className="newRecoveries" color="textSecondary" gutterBottom>
+                                ( +<CountUp start={0} end={+newRecoveries} duration={2.75} separator=","/> )
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date(DateUpdate).toDateString()}

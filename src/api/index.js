@@ -14,7 +14,7 @@ export const fetchData = async(countrySpecificUrl) => {
 
         return data;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return error;
     }
 }
