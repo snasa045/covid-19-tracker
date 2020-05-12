@@ -2,7 +2,7 @@
 
 <img src="./src/assets/images/covid19AppImage.png">
 
-# [LIVE SITE](https://covid-19-tracker-sid.web.app/)
+# [Live](https://covid-19-tracker-sid.web.app/)
 
 # Website is using:
 <ul>
@@ -12,6 +12,15 @@
   <li><a href="https://github.com/glennreyes/react-countup" target="_blank">Countup js</a></li>
   <li><a href="https://github.com/react-ga/react-ga" target="_blank">React-GA</a></li>
   <li><a href="https://kustom.radio-canada.ca/coronavirus/world" target="_blank">API</a></li>
+  <li><a href="https://github.com/axios/axios" target="_blank">Axios</a></li>
+</ul>
+
+# Installation
+
+<ul>
+  <li>git clone https://github.com/snasa045/covid-19-tracker.git</li>
+  <li>npm install</li>
+  <li>npm start</li>
 </ul>
 
 # Data Resource
