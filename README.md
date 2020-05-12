@@ -2,6 +2,21 @@
 
 <img src="./src/assets/images/covid19AppImage.png">
 
+# [LIVE SITE](https://covid-19-tracker-sid.web.app/)
+
+# Website is using:
+<ul>
+  <li><a href="https://reactjs.org/" target="_blank">React.js</a></li>
+  <li><a href="https://material-ui.com/" target="_blank">Material-UI</a></li>
+  <li><a href="https://www.chartjs.org/" target="_blank">Chart.js</a></li>
+  <li><a href="https://github.com/glennreyes/react-countup" target="_blank">Countup js</a></li>
+  <li><a href="https://github.com/react-ga/react-ga" target="_blank">React-GA</a></li>
+  <li><a href="https://kustom.radio-canada.ca/coronavirus/world" target="_blank">API</a></li>
+</ul>
+
+# Data Resource
+Check out [https://kustom.radio-canada.ca/coronavirus/world](https://kustom.radio-canada.ca/coronavirus/world).
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
