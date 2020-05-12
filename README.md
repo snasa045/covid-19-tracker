@@ -1,4 +1,4 @@
-#COVID-19 Tracker
+# COVID-19 Tracker
 
 <img src="./src/assets/images/covid19AppImage.png">
 
