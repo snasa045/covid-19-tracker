@@ -12,6 +12,7 @@
   <li><a href="https://github.com/glennreyes/react-countup" target="_blank">Countup js</a></li>
   <li><a href="https://github.com/react-ga/react-ga" target="_blank">React-GA</a></li>
   <li><a href="https://kustom.radio-canada.ca/coronavirus/world" target="_blank">API</a></li>
+  <li><a href="https://github.com/axios/axios" target="_blank">Axios</a></li>
 </ul>
 
 # Installation
