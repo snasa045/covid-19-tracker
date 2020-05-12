@@ -64,7 +64,7 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                                 Active Cases
                             </Typography>
                             <Typography variant="h4" component="h2" color="primary">
-                                <CountUp start={0} end={+totalActiveCases} duration={2.75} separator=","/>
+                                <CountUp start={0} end={+totalActiveCases} duration={1.75} separator=","/>
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date(DateUpdate).toDateString()}
@@ -77,10 +77,10 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                             Deaths
                             </Typography>
                             <Typography variant="h4" component="h2" color="secondary">
-                                <CountUp start={0} end={+Deaths} duration={2.75} separator=","/>
+                                <CountUp start={0} end={+Deaths} duration={1.75} separator=","/>
                             </Typography>
                             <Typography className="newDeaths" color="textSecondary" gutterBottom>
-                                ( +<CountUp start={0} end={+newDeaths} duration={2.75} separator=","/> )
+                                Today: ( +<CountUp start={0} end={+newDeaths} duration={1.75} separator=","/> )
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date(DateUpdate).toDateString()}
@@ -93,10 +93,10 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                                 Recovered
                             </Typography>
                             <Typography variant="h4" component="h2">
-                                <CountUp start={0} end={+Recovered} duration={2.75} separator=","/>
+                                <CountUp start={0} end={+Recovered} duration={1.75} separator=","/>
                             </Typography>
                             <Typography className="newRecoveries" color="textSecondary" gutterBottom>
-                                ( +<CountUp start={0} end={+newRecoveries} duration={2.75} separator=","/> )
+                                Today: ( +<CountUp start={0} end={+newRecoveries} duration={1.75} separator=","/> )
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date(DateUpdate).toDateString()}

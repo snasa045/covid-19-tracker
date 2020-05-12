@@ -6,7 +6,21 @@ import SelectCountry from './components/SelectCountry/SelectCountry';
 import Graph from './components/Graph/Graph';
 import CountUp from 'react-countup';
 import ReactGA from 'react-ga';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 import './App.scss';
+
+const theme = createMuiTheme({
+  palette: {
+      primary: {
+          main: '#0055DE',
+      },
+      secondary: {
+          main: '#AF3C43',
+      },
+  },
+});
 
 class App extends Component {
 
@@ -85,10 +99,12 @@ class App extends Component {
 
   render() {
     const { data, countries, history, countryName} = this.state;
-    
+
+    // if(true) {
     if (history.length === 0) {
-      return "Loading...";
+      return <ThemeProvider theme={theme}> <CircularProgress color="primary" style={{width: 150, height: 150, margin: 'auto'}}/> </ThemeProvider>;
     }
+    
     let dailyNewCases = this.diffMaker(history.map(day => day.Confirmed));
     let dailyNewDeaths = this.diffMaker(history.map(day => day.Deaths));
     let dailyNewRecovered = this.diffMaker(history.map(day => day.Recovered));
@@ -107,10 +123,10 @@ class App extends Component {
           <div className="country_name_total_cases">
             <h2 className="country_name">{countryName}</h2>
             <h3>
-              Total Cases: <CountUp start={0} end={totalCases} duration={2.75} separator=","/>
+              Total Cases: <CountUp start={0} end={totalCases} duration={1.75} separator=","/>
             </h3>
             <h4>
-              New Cases Today: ( +<CountUp start={0} end={+newCasesToday} duration={2.75} separator=","/> )
+              New Cases Today: ( +<CountUp start={0} end={+newCasesToday} duration={1.75} separator=","/> )
             </h4>
           </div>
           <Cards history = {[dailyNewDeaths, dailyNewRecovered]} data = {data}/>

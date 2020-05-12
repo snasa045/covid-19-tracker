@@ -19,6 +19,8 @@ code {
 body, #root {
     height: 100vh;
     font-family: 'Averta', Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 @font-face {
