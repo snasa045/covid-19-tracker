@@ -53,6 +53,9 @@ class App extends Component {
       return countriesArray.push(country.Name);
     });
 
+    // let locateCountry = await locatedCountry();
+    // console.log(locateCountry);
+
     this.setState({ 
       ...this.state,
       data: data,
