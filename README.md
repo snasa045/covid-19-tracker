@@ -2,7 +2,7 @@
 
 <img src="./src/assets/images/covid19AppImage.png">
 
-# [LIVE SITE](https://covid-19-tracker-sid.web.app/)
+# [Live](https://covid-19-tracker-sid.web.app/)
 
 # Website is using:
 <ul>
