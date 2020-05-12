@@ -1,3 +1,8 @@
+#COVID-19 Tracker
+
+<img src="./src/assets/images/covid19AppImage.png">
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -53,6 +53,9 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
         />
     );
 
+    // const date = new Date(DateUpdate).toLocaleDateString();
+    // console.log(date);
+    // console.log(DateUpdate);
     return (
         <div className="global_cards_wrapper" >
 
@@ -67,7 +70,7 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                                 <CountUp start={0} end={+totalActiveCases} duration={1.75} separator=","/>
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
-                                {new Date(DateUpdate).toDateString()}
+                                {new Date().toDateString()}
                             </Typography>
                         </CardContent>
                     </Grid>
@@ -83,7 +86,7 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                                 Today: ( +<CountUp start={0} end={+newDeaths} duration={1.75} separator=","/> )
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
-                                {new Date(DateUpdate).toDateString()}
+                                {new Date().toDateString()}
                             </Typography>
                         </CardContent>
                     </Grid>
@@ -99,7 +102,7 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                                 Today: ( +<CountUp start={0} end={+newRecoveries} duration={1.75} separator=","/> )
                             </Typography>
                             <Typography className="date" color="textSecondary" gutterBottom>
-                                {new Date(DateUpdate).toDateString()}
+                                {new Date().toDateString()}
                             </Typography>
                         </CardContent>
                     </Grid>
