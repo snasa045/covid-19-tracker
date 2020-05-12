@@ -14,6 +14,14 @@
   <li><a href="https://kustom.radio-canada.ca/coronavirus/world" target="_blank">API</a></li>
 </ul>
 
+# Installation
+
+<ul>
+  <li>git clone https://github.com/snasa045/covid-19-tracker.git</li>
+  <li>npm install</li>
+  <li>npm start</li>
+</ul>
+
 # Data Resource
 Check out [https://kustom.radio-canada.ca/coronavirus/world](https://kustom.radio-canada.ca/coronavirus/world).
 
