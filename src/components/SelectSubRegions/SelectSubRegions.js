@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-import './SelectCountry.module.scss';
+import './SelectSubRegions.scss';
 
 const theme = createMuiTheme({
   palette: {
@@ -14,26 +14,25 @@ const theme = createMuiTheme({
   },
 });
 
-const SelectCountry = ({countries, onCountryChange}) => {
+const SelectSubRegions = ({subRegions, onSubRegionsChange, subRegionName}) => {
 
-    // console.log(countries);
-
-    if(!countries) {
+    if(!subRegions) {
         return 'Loading...';
     }
 
     return (
       <ThemeProvider theme={theme}>
         <Autocomplete
-          id="country-select-demo"
+          id="sub-region-select-demo"
           color="primary"
+          className="sub_region_dropdown dropdown"
           style={{ maxWidth: 300, minWidth: 250 }}
-          options={countries}
-          className="select_country_dropdown dropdown"
+          options={subRegions}
           autoHighlight
           getOptionLabel={(option) => option} 
-          onChange={onCountryChange}
+          onChange={onSubRegionsChange}
           openOnFocus
+          value = {subRegionName}
           renderOption={(option) => (
             <React.Fragment>
               {option}
@@ -42,7 +41,7 @@ const SelectCountry = ({countries, onCountryChange}) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Choose a Country"
+              label="Choose a State/ Province"
               variant="outlined"
               inputProps={{
                 ...params.inputProps,
@@ -55,4 +54,4 @@ const SelectCountry = ({countries, onCountryChange}) => {
       );
 }
 
-export default SelectCountry;
+export default SelectSubRegions;

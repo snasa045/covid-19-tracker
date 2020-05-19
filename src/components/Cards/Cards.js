@@ -4,8 +4,6 @@ import CountUp from 'react-countup';
 import { Pie } from 'react-chartjs-2'; 
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-
-
 import './Cards.scss';
 
 const theme = createMuiTheme({
@@ -19,23 +17,38 @@ const theme = createMuiTheme({
     },
   });
 
-const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate }, 
-                history : [dailyNewDeaths, dailyNewRecovered]} ) => {
+const Cards = (props) => {
 
-    // console.log(dailyNewDeaths, dailyNewRecovered);
-    if(!Confirmed) {
+    // console.log(props);
+    const {subRegionUpdated} = props;
+    const {data} = props;
+    const {history} = props;
+    
+    const [dailyNewDeaths, dailyNewRecovered] = history;
+    if(!data.Confirmed) {
         return 'Loading...';
     }
+    
 
-    const [newDeaths] = dailyNewDeaths.slice(-1);
-    const [newRecoveries] = dailyNewRecovered.slice(-1);
-    const totalActiveCases = (Confirmed - Deaths - Recovered);
+    let newDeaths;
+    let newRecoveries;
+    let totalActiveCases;
+
+    if(subRegionUpdated) {
+        totalActiveCases = data.totalActiveCases;
+        newDeaths = data.newDeaths;
+        newRecoveries = data.newRecoveries;
+    } else {
+        newDeaths= dailyNewDeaths.slice(-1);
+        newRecoveries = dailyNewRecovered.slice(-1);
+        totalActiveCases = (data.Confirmed - data.Deaths - data.Recovered);
+    }
 
     const pieChart = (
         <Pie 
             data = {{
                 datasets: [{
-                    data: [+totalActiveCases, +Deaths, +Recovered],
+                    data: [+totalActiveCases, +data.Deaths, +data.Recovered],
                     backgroundColor: ['#0055DE', '#AF3C43', '#03883B'],
                 }],
                 labels: [
@@ -80,7 +93,7 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                             Deaths
                             </Typography>
                             <Typography variant="h4" component="h2" color="secondary">
-                                <CountUp start={0} end={+Deaths} duration={1.75} separator=","/>
+                                <CountUp start={0} end={+data.Deaths} duration={1.75} separator=","/>
                             </Typography>
                             <Typography className="newDeaths" color="textSecondary" gutterBottom>
                                 Today: ( +<CountUp start={0} end={+newDeaths} duration={1.75} separator=","/> )
@@ -96,7 +109,7 @@ const Cards = ( {data : { Confirmed, Deaths, Recovered, DateUpdate },
                                 Recovered
                             </Typography>
                             <Typography variant="h4" component="h2">
-                                <CountUp start={0} end={+Recovered} duration={1.75} separator=","/>
+                                <CountUp start={0} end={+data.Recovered} duration={1.75} separator=","/>
                             </Typography>
                             <Typography className="newRecoveries" color="textSecondary" gutterBottom>
                                 Today: ( +<CountUp start={0} end={+newRecoveries} duration={1.75} separator=","/> )

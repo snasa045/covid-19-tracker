@@ -1,6 +1,7 @@
 
 .App {
   text-align: center;
+  margin-bottom: 40px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -68,6 +69,15 @@
           background-position: -396px center;
       }
     }
+
+    .dropdown_wrapper{
+      display: flex;
+      flex-direction: column;
+
+      .dropdown{
+        margin: 10px 0;
+      }
+    }
   }
   
   .country_name_total_cases{
@@ -119,9 +129,10 @@
         height: 75px;
         margin: auto;
       }
-      h1, .MuiAutocomplete-root {
+      h1, .dropdown_wrapper {
         order: 1;
         margin: 20px 0;
+        margin-bottom: 0;
       }
     }
   }
