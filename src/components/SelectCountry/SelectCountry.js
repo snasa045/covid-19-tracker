@@ -27,7 +27,7 @@ const SelectCountry = ({countries, onCountryChange}) => {
         <Autocomplete
           id="country-select-demo"
           color="primary"
-          style={{ maxWidth: 300, minWidth: 250 }}
+          style={{ maxWidth: 300, minWidth: 260 }}
           options={countries}
           className="select_country_dropdown dropdown"
           autoHighlight

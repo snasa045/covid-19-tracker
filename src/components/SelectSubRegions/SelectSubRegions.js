@@ -26,7 +26,7 @@ const SelectSubRegions = ({subRegions, onSubRegionsChange, subRegionName}) => {
           id="sub-region-select-demo"
           color="primary"
           className="sub_region_dropdown dropdown"
-          style={{ maxWidth: 300, minWidth: 250 }}
+          style={{ maxWidth: 300, minWidth: 260 }}
           options={subRegions}
           autoHighlight
           getOptionLabel={(option) => option} 

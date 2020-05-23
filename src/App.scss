@@ -54,19 +54,19 @@
   
     @-webkit-keyframes rotationEarth {
       from {
-          background-position:left center;
+          background-position:right center;
       }
       to {
-          background-position: -396px center;
+          background-position: 300px center;
       }
     }
   
     @keyframes rotationEarth {
       from {
-          background-position:left center;
+          background-position:right center;
       }
       to {
-          background-position: -396px center;
+          background-position: 300px center;
       }
     }
 
