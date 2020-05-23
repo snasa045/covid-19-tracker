@@ -24,7 +24,10 @@
 </ul>
 
 # Data Resource
-Check out [https://kustom.radio-canada.ca/coronavirus/world](https://kustom.radio-canada.ca/coronavirus/world).
+<ul>
+  <li><a href="https://kustom.radio-canada.ca/coronavirus/world" target = "_blank">https://kustom.radio-canada.ca/coronavirus/world</a></li>
+  <li><a href="https://covid19api.io/api/v1/IndiaCasesByStates" target = "_blank">https://covid19api.io/api/v1/IndiaCasesByStates</a></li>
+</ul>
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
