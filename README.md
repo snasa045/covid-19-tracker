@@ -27,6 +27,7 @@
 <ul>
   <li><a href="https://kustom.radio-canada.ca/coronavirus/world" target = "_blank">https://kustom.radio-canada.ca/coronavirus/world</a></li>
   <li><a href="https://covid19api.io/api/v1/IndiaCasesByStates" target = "_blank">https://covid19api.io/api/v1/IndiaCasesByStates</a></li>
+  <li><a href="https://restcountries.eu/#api-endpoints-code" target = "_blank">https://restcountries.eu/#api-endpoints-code</a></li>
 </ul>
 
 
