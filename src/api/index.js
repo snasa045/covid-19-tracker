@@ -14,6 +14,16 @@ export const fetchIndianData = async() => {
     }
 }
 
+export const fetchCountryFlag = async(country) => {
+    try {
+        // const {data} = await axios.get(`https://restcountries.eu/rest/v2/all`);
+        const {data} = await axios.get(`https://restcountries.eu/rest/v2/name/${country}?fullText=true`);
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
 export const fetchData = async(countrySpecificUrl) => {
     let updatedUrl = worldUrl;
 

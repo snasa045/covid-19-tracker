@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {fetchData, fetchIndianData, fetchDataRegions} from './api';
+import {fetchData, fetchIndianData, fetchDataRegions, fetchCountryFlag} from './api';
 import Cards from './components/Cards/Cards';
 import SelectCountry from './components/SelectCountry/SelectCountry';
 import SelectSubRegions from './components/SelectSubRegions/SelectSubRegions';
@@ -39,6 +39,7 @@ class App extends Component {
       data: {},
       country: '',
       countryName: '',
+      countryFlag: '',
       countries: [],
       history: [],
       subRegions: [],
@@ -68,6 +69,28 @@ class App extends Component {
       return countriesArray.push(country.Name);
     });
 
+    // const countryFlagData = await fetchCountryFlag();
+    // const notFoundCountryFlagData = [];
+    // console.log(countryFlagData);
+    // countriesArray.forEach(country => {
+      // for (let index = 0; index < countryFlagData.length; index++) {
+      //   if(country.toLowerCase() !== countryFlagData[index].name.toLowerCase()) {
+
+      //   }
+      // }
+    //   const filterArray = [];
+
+    //   countryFlagData.forEach(flagData => {
+    //     filterArray.push(flagData.name);
+    //     flagData.altSpellings.forEach(data => filterArray.push(data));
+    //   });
+
+    //   let exist = filterArray.findIndex(flagData => country.toLowerCase() === flagData.toLowerCase());
+    //   if (exist === -1) {notFoundCountryFlagData.push(country)};
+    // });
+
+    // console.log(notFoundCountryFlagData);
+
 
     this.setState({ 
       ...this.state,
@@ -84,15 +107,63 @@ class App extends Component {
     // console.log(value);
     const oldData = this.state.copyData;
     const oldHistory = this.state.copyHistory;
+    const convertCountryNameData = {
+      "Russia": "Russian Federation",
+      "Iran": "Iran (Islamic Republic of)",
+      "S. Korea": "Korea (Republic of)",
+      "Czechia": "Czech Republic",
+      "Moldova": "Moldova (Republic of)",
+      "Bolivia": "Bolivia (Plurinational State of)",
+      "North Macedonia": "Republic of Macedonia",
+      "Venezuela": "Bolivarian Republic of Venezuela",
+      "CAR": "Central African Republic",
+      "Tanzania": "United Republic of Tanzania",
+      "Palestine": "State of Palestine",
+      "Vietnam": "Viet Nam",
+      "Eswatini": "Swaziland",
+      "Faeroe Islands": "Faroe Islands",
+      "Brunei": "Nation of Brunei",
+      "Syria": "Syrian Arab Republic",
+      "Sint Maarten": "Sint Maarten (Dutch part)",
+      "Saint Martin": "Saint Martin (French part)",
+      "St. Vincent Grenadines": "Saint Vincent and the Grenadines",
+      "Falkland Islands": "Falkland Islands (Malvinas)",
+      "Turks and Caicos": "Turks and Caicos Islands",
+      "Vatican City": "Holy See",
+      "British Virgin Islands": "Virgin Islands (British)",
+      "St. Barth": "Saint Barthélemy",
+      "Saint Pierre Miquelon": "Saint Pierre and Miquelon"
+    };
     
     let selectedCountryData;
     let selectedCountryHistory;
     let selectedCountrySubRegionArray = [];
+    let selectedCountryDataForFlag = [];
+    let selectedCountryFlag = '';
     const indianSubRegionData = [];
     const indianSubRegionCodes = [];
     let indiaCountryData = [];
+
     if (value) {
       let countryData = oldData.Regions.find(country => country.Name === value);
+      
+      // fetching a country flag from the api
+      selectedCountryDataForFlag = await fetchCountryFlag(countryData.Name);
+      if (selectedCountryDataForFlag.length) {
+        selectedCountryDataForFlag.forEach(data => selectedCountryFlag = data.flag);
+      } else {
+        for (const key in convertCountryNameData) {
+          if(key === value) {
+            // console.log(convertCountryNameData[key])
+            selectedCountryDataForFlag = await fetchCountryFlag(convertCountryNameData[key]);
+          } 
+        }
+
+        if (selectedCountryDataForFlag.length) {
+          selectedCountryDataForFlag.forEach(data => selectedCountryFlag = data.flag);
+        }
+      }
+
       selectedCountryData = await fetchData(countryData.Api);
       selectedCountryHistory = selectedCountryData.History.reverse();
       if(selectedCountryData.Regions || value === "India") {
@@ -115,6 +186,7 @@ class App extends Component {
       selectedCountryData = oldData;
       selectedCountryHistory = oldHistory;
       selectedCountrySubRegionArray = [];
+      selectedCountryFlag = value;
     }
 
     
@@ -123,6 +195,7 @@ class App extends Component {
       data: selectedCountryData,
       history: selectedCountryHistory,
       countryName: selectedCountryData.Name,
+      countryFlag: selectedCountryFlag,
       subRegions: selectedCountrySubRegionArray,
       subRegionName: '',
       indianSubRegionCodes: indianSubRegionCodes,
@@ -135,12 +208,6 @@ class App extends Component {
       copyIndianSubRegionData: indianSubRegionData,
       copyindiaCountryData: indiaCountryData
     });
-
-    // console.log(this.state.data);
-    // console.log(this.state.subRegions);
-    // console.log(this.state.indianSubRegionData);
-    // console.log(this.state.indianSubRegionCodes);
-
   }
 
   handleSubRegionChange = async (event, value) => {
@@ -197,7 +264,6 @@ class App extends Component {
       subRegionUpdated: indianSubRegion,
       subRegionName: value
     });
-    // console.log(this.state.data); 
   }
 
   // Function to get the difference between current day and prev day total cases
@@ -212,21 +278,19 @@ class App extends Component {
 }
 
   render() {
-    const { data, countries, history, countryName, subRegions, subRegionName, copyCountryData, subRegionUpdated } = this.state;
+    const { data, countries, history, countryName, subRegions, subRegionName, copyCountryData, subRegionUpdated, countryFlag } = this.state;
 
     let dailyNewCases;
     let dailyNewDeaths;
     let dailyNewRecovered;
     let totalCases;
     let newCasesToday
-    // console.log(data);
-    // if(true) {
+    
     if (!data.Confirmed) {
       return <ThemeProvider theme={theme}> <CircularProgress color="primary" style={{width: 150, height: 150, margin: 'auto'}}/> </ThemeProvider>;
     }
 
     if (copyCountryData.Country === "India" && subRegionUpdated) {
-      // console.log("Subregion updated");
       totalCases = +data.Confirmed;
       newCasesToday = +data.newCasesToday;
     } else {
@@ -237,10 +301,7 @@ class App extends Component {
       totalCases = +data.Confirmed;
       newCasesToday = dailyNewCases.slice(-1);
     }
-    // console.log(subRegionUpdated);
-    // console.log(this.state.copyCountryData);
-    // console.log(data);
-    // console.log(history);
+    
     return (
       <div className="App">
           <header className="global_header">
@@ -255,7 +316,10 @@ class App extends Component {
             </div>
           </header>
           <div className="country_name_total_cases">
-            <h2 className="country_name">{countryName}</h2>
+            <div className="country_name_and_flag_div">
+              { countryFlag && <img className="country_img" src={`${countryFlag}`} alt="country flag"/>}
+              <h2 className="country_name">{countryName}</h2>
+            </div>
             <h3>
               Total Cases: <CountUp start={0} end={totalCases} duration={1.75} separator=","/>
             </h3>
