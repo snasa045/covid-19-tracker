@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {fetchData, fetchIndianData, fetchDataRegions, fetchCountryFlag} from './api';
+import {fetchData, fetchIndianData, fetchDataRegions, fetchCountryFlag, fetchCountries, fetchDailyData} from './api';
 import Cards from './components/Cards/Cards';
 import SelectCountry from './components/SelectCountry/SelectCountry';
 import SelectSubRegions from './components/SelectSubRegions/SelectSubRegions';
@@ -49,9 +49,9 @@ class App extends Component {
       indiaCountryData: [],
       subRegionUpdated: false,
       copyData: {},
-      copyHistory: [],
+      // copyHistory: [],
       copyCountryData: {},
-      copyCountryHistory: [],
+      // copyCountryHistory: [],
       copyCountryName: '',
       copyIndianSubRegionData: [],
       copyindiaCountryData: []
@@ -60,14 +60,15 @@ class App extends Component {
 
   async componentDidMount() {
     let data = await fetchData();
+    let countriesArray = await fetchCountries();
+    let historyArray = await fetchDailyData();
     // let locateCountry = await locatedCountry();
     // console.log(data);
     // console.log(locateCountry);
-    let countriesArray = [];
-    const ascendingHistory = data.History.reverse();
-    data.Regions.map(country => {
-      return countriesArray.push(country.Name);
-    });
+    // console.log(data);
+    // console.log(countriesArray);
+    // Removing history for now due to updated API doesn't provide history data
+    // const ascendingHistory = data.History.reverse();
 
     // const countryFlagData = await fetchCountryFlag();
     // const notFoundCountryFlagData = [];
@@ -96,17 +97,20 @@ class App extends Component {
       ...this.state,
       data: data,
       countries: countriesArray,
-      history: ascendingHistory,
+      history: historyArray,
       copyData: data,
-      copyHistory: ascendingHistory,
-      countryName: data.Name
+      // copyHistory: ascendingHistory,
+      countryName: 'World',
+      copyCountryName: 'World'
     });
   }
 
   handleCountryChange = async (event, value) => {
     // console.log(value);
+
     const oldData = this.state.copyData;
-    const oldHistory = this.state.copyHistory;
+    let oldSelectedCountryName = this.state.countryName;
+    // const oldHistory = this.state.copyHistory;
     const convertCountryNameData = {
       "Russia": "Russian Federation",
       "Iran": "Iran (Islamic Republic of)",
@@ -136,19 +140,23 @@ class App extends Component {
     };
     
     let selectedCountryData;
-    let selectedCountryHistory;
+    // let selectedCountryHistory;
     let selectedCountrySubRegionArray = [];
     let selectedCountryDataForFlag = [];
     let selectedCountryFlag = '';
     const indianSubRegionData = [];
     const indianSubRegionCodes = [];
     let indiaCountryData = [];
+    let selectedCountryName = '';
 
     if (value) {
-      let countryData = oldData.Regions.find(country => country.Name === value);
-      
+      selectedCountryName = value;
+      // let countryData = oldData.Regions.find(country => country.Name === value);
+      selectedCountryData = await fetchData(value);
       // fetching a country flag from the api
-      selectedCountryDataForFlag = await fetchCountryFlag(countryData.Name);
+      selectedCountryDataForFlag = await fetchCountryFlag(value);
+      // console.log(selectedCountryData);
+      // console.log(selectedCountryDataForFlag);
       if (selectedCountryDataForFlag.length) {
         selectedCountryDataForFlag.forEach(data => selectedCountryFlag = data.flag);
       } else {
@@ -164,8 +172,7 @@ class App extends Component {
         }
       }
 
-      selectedCountryData = await fetchData(countryData.Api);
-      selectedCountryHistory = selectedCountryData.History.reverse();
+      // selectedCountryHistory = selectedCountryData.History.reverse();
       if(selectedCountryData.Regions || value === "India") {
         if(selectedCountryData.Regions) {
           selectedCountryData.Regions.map(region => {
@@ -184,7 +191,8 @@ class App extends Component {
       }
     } else {
       selectedCountryData = oldData;
-      selectedCountryHistory = oldHistory;
+      selectedCountryName = 'World';
+      // selectedCountryHistory = oldHistory;
       selectedCountrySubRegionArray = [];
       selectedCountryFlag = value;
     }
@@ -193,8 +201,8 @@ class App extends Component {
     this.setState({
       ...this.state,
       data: selectedCountryData,
-      history: selectedCountryHistory,
-      countryName: selectedCountryData.Name,
+      // history: selectedCountryHistory,
+      countryName: selectedCountryName,
       countryFlag: selectedCountryFlag,
       subRegions: selectedCountrySubRegionArray,
       subRegionName: '',
@@ -202,9 +210,9 @@ class App extends Component {
       indianSubRegionData: indianSubRegionData,
       indiaCountryData: indiaCountryData,
       subRegionUpdated: false,
-      copyCountryName: selectedCountryData.Name,
+      copyCountryName: selectedCountryName,
       copyCountryData: selectedCountryData,
-      copyCountryHistory: selectedCountryHistory,
+      // copyCountryHistory: selectedCountryHistory,
       copyIndianSubRegionData: indianSubRegionData,
       copyindiaCountryData: indiaCountryData
     });
@@ -214,14 +222,14 @@ class App extends Component {
     // console.log(value);
 
     const oldData = this.state.copyCountryData;
-    const oldHistory = this.state.copyCountryHistory;
+    // const oldHistory = this.state.copyCountryHistory;
     const oldCountryName = this.state.copyCountryName;
     const oldIndianSubRegionData = this.state.copyIndianSubRegionData;
     let indianSubRegion = false;
     // console.log(oldData);
     let selectedSubRegionName;
     let selectedSubRegionData;
-    let selectedSubRegionHistory;
+    // let selectedSubRegionHistory;
     if (value) {
       if (oldData.Country === "India") {
         indianSubRegion = true;
@@ -240,17 +248,17 @@ class App extends Component {
         })
         selectedSubRegionData = transformedData[0];
         selectedSubRegionName = selectedSubRegionData.State;
-        selectedSubRegionHistory = oldHistory;
+        // selectedSubRegionHistory = oldHistory;
       } else {
         let subRegionData = oldData.Regions.find(region => region.State === value);
         selectedSubRegionData = await fetchDataRegions(subRegionData.Api);
-        selectedSubRegionHistory = selectedSubRegionData.History.reverse();
+        // selectedSubRegionHistory = selectedSubRegionData.History.reverse();
         selectedSubRegionName = selectedSubRegionData.State;
         indianSubRegion = false;
       }
     } else {
       selectedSubRegionData = oldData;
-      selectedSubRegionHistory = oldHistory;
+      // selectedSubRegionHistory = oldHistory;
       selectedSubRegionName = oldCountryName;
       value = '';
       indianSubRegion = false;
@@ -259,7 +267,7 @@ class App extends Component {
     this.setState({
       ...this.state,
       data: selectedSubRegionData,
-      history: selectedSubRegionHistory,
+      // history: selectedSubRegionHistory,
       countryName: selectedSubRegionName,
       subRegionUpdated: indianSubRegion,
       subRegionName: value
@@ -278,7 +286,7 @@ class App extends Component {
 }
 
   render() {
-    const { data, countries, history, countryName, subRegions, subRegionName, copyCountryData, subRegionUpdated, countryFlag } = this.state;
+    const { data, history, countries, countryName, subRegions, subRegionName, copyCountryData, subRegionUpdated, countryFlag } = this.state;
 
     let dailyNewCases;
     let dailyNewDeaths;
@@ -286,21 +294,24 @@ class App extends Component {
     let totalCases;
     let newCasesToday
     
-    if (!data.Confirmed) {
+    if (!data.confirmed) {
       return <ThemeProvider theme={theme}> <CircularProgress color="primary" style={{width: 150, height: 150, margin: 'auto'}}/> </ThemeProvider>;
     }
 
     if (copyCountryData.Country === "India" && subRegionUpdated) {
-      totalCases = +data.Confirmed;
-      newCasesToday = +data.newCasesToday;
+      totalCases = +data.confirmed.value;
+      newCasesToday = +history?.slice(-1).newCasesToday;
+      // newCasesToday = +data.newCasesToday;
     } else {
       dailyNewCases = this.diffMaker(history.map(day => day.Confirmed));
-      dailyNewDeaths = this.diffMaker(history.map(day => day.Deaths));
-      dailyNewRecovered = this.diffMaker(history.map(day => day.Recovered));
+      // dailyNewDeaths = this.diffMaker(history.map(day => day.Deaths));
+      // dailyNewRecovered = this.diffMaker(history.map(day => day.Recovered));
 
-      totalCases = +data.Confirmed;
-      newCasesToday = dailyNewCases.slice(-1);
+      totalCases = +data.confirmed.value;
+      newCasesToday = +history?.slice(-1)[0].newCasesToday;
     }
+
+
     
     return (
       <div className="App">
@@ -309,10 +320,10 @@ class App extends Component {
             <div className="earth"></div>
             <div className="dropdown_wrapper">
               <SelectCountry countries = {countries} onCountryChange = {this.handleCountryChange}/>
-              { 
+              {/* { 
                 subRegions.length > 0 && 
                   <SelectSubRegions subRegionName = {subRegionName} subRegions = {subRegions} onSubRegionsChange = {this.handleSubRegionChange}/>
-              }
+              } */}
             </div>
           </header>
           <div className="country_name_total_cases">
@@ -323,15 +334,15 @@ class App extends Component {
             <h3>
               Total Cases: <CountUp start={0} end={totalCases} duration={1.75} separator=","/>
             </h3>
-            <h4>
+            {/* <h4>
               New Cases Today: ( +<CountUp start={0} end={+newCasesToday} duration={1.75} separator=","/> )
-            </h4>
+            </h4> */}
           </div>
-          <Cards subRegionUpdated = {subRegionUpdated} history = {[dailyNewDeaths, dailyNewRecovered]} data = {data}/>
-          {
+          <Cards subRegionUpdated = {subRegionUpdated} history = {history} data = {data}/>
+          {/* {
             !subRegionUpdated &&
             <Graph history = {[history, dailyNewCases, dailyNewDeaths, dailyNewRecovered]} name = {countryName}/>
-          }
+          } */}
       </div>
     );
   }

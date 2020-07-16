@@ -86,9 +86,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
 
       .country_img {
         max-width: 60px;
+        min-height: 30px;
         margin-right: 5px;
         border-radius: 5px;
         // border: .5px solid #cfd6e2;

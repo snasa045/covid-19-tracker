@@ -23,32 +23,34 @@ const Cards = (props) => {
     const {subRegionUpdated} = props;
     const {data} = props;
     const {history} = props;
+
+    // console.log(history);
     
-    const [dailyNewDeaths, dailyNewRecovered] = history;
-    if(!data.Confirmed) {
+
+    if(!data.confirmed.value) {
         return 'Loading...';
     }
     
 
-    let newDeaths;
-    let newRecoveries;
+    // let newDeaths;
+    // let newRecoveries;
     let totalActiveCases;
 
     if(subRegionUpdated) {
         totalActiveCases = data.totalActiveCases;
-        newDeaths = data.newDeaths;
-        newRecoveries = data.newRecoveries;
+        // newDeaths = data.newDeaths;
+        // newRecoveries = data.newRecoveries;
     } else {
-        newDeaths= dailyNewDeaths.slice(-1);
-        newRecoveries = dailyNewRecovered.slice(-1);
-        totalActiveCases = (data.Confirmed - data.Deaths - data.Recovered);
+        // newDeaths= dailyNewDeaths.slice(-1);
+        // newRecoveries = dailyNewRecovered.slice(-1);
+        totalActiveCases = (+data.confirmed.value - +data.deaths.value - +data.recovered.value);
     }
 
     const pieChart = (
         <Pie 
             data = {{
                 datasets: [{
-                    data: [+totalActiveCases, +data.Deaths, +data.Recovered],
+                    data: [+totalActiveCases, +data.deaths.value, +data.recovered.value],
                     backgroundColor: ['#0055DE', '#AF3C43', '#03883B'],
                 }],
                 labels: [
@@ -90,14 +92,14 @@ const Cards = (props) => {
                     <Grid item className="deaths card_wrapper" component={Card} elevation={3}>
                         <CardContent>
                             <Typography className="title" color="textSecondary" gutterBottom>
-                            Deaths
+                                Deaths
                             </Typography>
                             <Typography variant="h4" component="h2" color="secondary">
-                                <CountUp start={0} end={+data.Deaths} duration={1.75} separator=","/>
+                                <CountUp start={0} end={+data.deaths.value} duration={1.75} separator=","/>
                             </Typography>
-                            <Typography className="newDeaths" color="textSecondary" gutterBottom>
+                            {/* <Typography className="newDeaths" color="textSecondary" gutterBottom>
                                 Today: ( +<CountUp start={0} end={+newDeaths} duration={1.75} separator=","/> )
-                            </Typography>
+                            </Typography> */}
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date().toDateString()}
                             </Typography>
@@ -109,11 +111,11 @@ const Cards = (props) => {
                                 Recovered
                             </Typography>
                             <Typography variant="h4" component="h2">
-                                <CountUp start={0} end={+data.Recovered} duration={1.75} separator=","/>
+                                <CountUp start={0} end={+data.recovered.value} duration={1.75} separator=","/>
                             </Typography>
-                            <Typography className="newRecoveries" color="textSecondary" gutterBottom>
+                            {/* <Typography className="newRecoveries" color="textSecondary" gutterBottom>
                                 Today: ( +<CountUp start={0} end={+newRecoveries} duration={1.75} separator=","/> )
-                            </Typography>
+                            </Typography> */}
                             <Typography className="date" color="textSecondary" gutterBottom>
                                 {new Date().toDateString()}
                             </Typography>
@@ -125,8 +127,6 @@ const Cards = (props) => {
                     {pieChart}
                 </div>
             </ThemeProvider>
-
-           
         </div>
     );
 }

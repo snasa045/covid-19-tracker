@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const worldUrl = "https://kustom.radio-canada.ca/coronavirus/world";
+// const worldUrl = "https://kustom.radio-canada.ca/coronavirus/world";
+const worldUrl = 'https://covid19.mathdro.id/api';
 const indiaUrl = "https://covid19api.io/api/v1/IndiaCasesByStates";
 
 const api_key = "f5598cc3e651f84ff7ec70af69a9aeb26c93a0c7d4ec6f9545d9a444"; // free account
@@ -24,15 +25,15 @@ export const fetchCountryFlag = async(country) => {
     }
 }
 
-export const fetchData = async(countrySpecificUrl) => {
+export const fetchData = async(countryName) => {
     let updatedUrl = worldUrl;
 
-    if(countrySpecificUrl) {
-        updatedUrl = countrySpecificUrl;
+    if(countryName) {
+        updatedUrl = `${worldUrl}/countries/${countryName}`;
     }
     
     try {
-        let {data: [data]} = await axios.get(updatedUrl);
+        let { data } = await axios.get(updatedUrl);
         return data;
     } catch (error) {
         // console.log(error);
@@ -57,3 +58,24 @@ export const locatedCountry =  async() => {
 
     return data;
 }
+
+export const fetchCountries = async () => {
+    try {
+        const { data: { countries } } = await axios.get(`${worldUrl}/countries`);
+
+        return countries.map((country) => country.name);
+    } catch (error) {
+        return error;
+    }
+};
+
+export const fetchDailyData = async () => {
+    try {
+      const { data } = await axios.get(`${worldUrl}/daily`);
+    //   console.log(data);
+  
+      return data.map(({ confirmed, deaths, reportDate: date, deltaConfirmed: newCasesToday }) => ({ confirmed: confirmed.total, deaths: deaths.total, date, newCasesToday }));
+    } catch (error) {
+      return error;
+    }
+  };
